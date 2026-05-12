@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Tip Calculator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <img src="logo.png" alt="Logo" class="logo" />
+    <h1 class="site-title">The Tip Calculator</h1>
+    <p class="site-subtitle">Because your server deserves the right number.</p>
+  </header>
+
+  <!-- HOW IT WORKS DROPDOWN -->
+  <section class="legend-section animate-up">
+    <button class="legend-toggle" id="legendToggle" aria-expanded="false">
+      <span>How It's Calculated</span>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+    <div class="legend-body" id="legendBody" aria-hidden="true">
+      <p class="legend-intro">You set a base tip %. We then adjust it based on your answers. Here's what moves the needle:</p>
+      <div class="legend-grid">
+        <div class="legend-col">
+          <h3 class="legend-heading boost">Boosts ▲</h3>
+          <ul>
+            <li><span class="tag boost">+2%</span> Order was perfect</li>
+            <li><span class="tag boost">+2%</span> Friendly & welcoming</li>
+            <li><span class="tag boost">+2%</span> Stayed on top of refills</li>
+            <li><span class="tag boost">+3%</span> Went above & beyond</li>
+            <li><span class="tag boost">+2%</span> Total vibe ✨</li>
+            <li><span class="tag boost">+2%</span> Visibly busy but still tried</li>
+          </ul>
+        </div>
+        <div class="legend-col">
+          <h3 class="legend-heading ding">Dings ▼</h3>
+          <ul>
+            <li><span class="tag ding">-4%</span> Wrong order, not fixed</li>
+            <li><span class="tag ding">-5%</span> Rude or dismissive</li>
+            <li><span class="tag ding">-2%</span> Had to beg for refills</li>
+            <li><span class="tag neutral">0%</span> Kitchen's fault = no penalty</li>
+          </ul>
+        </div>
+      </div>
+      <div class="legend-verdicts">
+        <h3 class="legend-heading">Verdict Scale</h3>
+        <div class="verdict-row"><span class="verdict-pct">30%+</span><span class="verdict-msg">"An absolute legend served you today. Tip like it."</span></div>
+        <div class="verdict-row"><span class="verdict-pct">25–29%</span><span class="verdict-msg">"That's a great server. They earned it."</span></div>
+        <div class="verdict-row"><span class="verdict-pct">20–24%</span><span class="verdict-msg">"Solid service. Tip reflects that."</span></div>
+        <div class="verdict-row"><span class="verdict-pct">15–19%</span><span class="verdict-msg">"Decent service, decent tip."</span></div>
+        <div class="verdict-row"><span class="verdict-pct">10–14%</span><span class="verdict-msg">"Rough around the edges, but we kept it fair."</span></div>
+      </div>
+      <p class="legend-note">⚠️ Tip never goes below <strong>10%</strong> and is capped at <strong>35%</strong>. Tipping matters.</p>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <main class="calculator">
+
+    <!-- SECTION 1: The Basics -->
+    <section class="card animate-up">
+      <h2 class="card-title">The Basics</h2>
+
+      <div class="field">
+        <label for="billAmount">Bill Amount ($)</label>
+        <div class="input-prefix-wrap">
+          <span class="prefix">$</span>
+          <input type="number" id="billAmount" placeholder="0.00" min="0" step="0.01" inputmode="decimal" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="baseTip">Your Base Tip: <span id="baseTipDisplay">20%</span></label>
+        <input type="range" id="baseTip" min="10" max="35" value="20" step="1" class="slider" />
+        <div class="slider-labels"><span>10%</span><span>35%</span></div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Order & Attitude -->
+    <section class="card animate-up">
+      <h2 class="card-title">Order & Attitude</h2>
+
+      <div class="field">
+        <label>How was your order?</label>
+        <div class="btn-group" id="orderAccuracy">
+          <button class="opt-btn" data-value="perfect">✅ Perfect</button>
+          <button class="opt-btn" data-value="minor">😬 Minor Issue</button>
+          <button class="opt-btn" data-value="wrong">❌ Wrong Order</button>
+        </div>
+      </div>
+
+      <div class="field" id="kitchenFaultField" style="display:none;">
+        <label>Was it the kitchen's fault?</label>
+        <div class="btn-group" id="kitchenFault">
+          <button class="opt-btn" data-value="yes">Yeah, kitchen goofed</button>
+          <button class="opt-btn" data-value="no">No, server's fault</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>How was their attitude?</label>
+        <div class="btn-group" id="attitude">
+          <button class="opt-btn" data-value="warm">😊 Warm & Friendly</button>
+          <button class="opt-btn" data-value="neutral">😐 Fine / Neutral</button>
+          <button class="opt-btn" data-value="rude">😤 Rude</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: Refills -->
+    <section class="card animate-up">
+      <h2 class="card-title">Refills</h2>
+
+      <div class="field">
+        <label>Did you even need refills?</label>
+        <div class="btn-group" id="neededRefills">
+          <button class="opt-btn" data-value="no">Nope, didn't need any</button>
+          <button class="opt-btn" data-value="yes">Yes I did</button>
+        </div>
+      </div>
+
+      <div class="field" id="refillQualityField" style="display:none;">
+        <label>How were the refills handled?</label>
+        <div class="btn-group" id="refillQuality">
+          <button class="opt-btn" data-value="ontop">🙌 Always on top of it</button>
+          <button class="opt-btn" data-value="askedonce">Asked once, no biggie</button>
+          <button class="opt-btn" data-value="begged">😩 Had to beg</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: The Extras -->
+    <section class="card animate-up">
+      <h2 class="card-title">The Extras</h2>
+
+      <div class="field">
+        <label>Did they go above & beyond?</label>
+        <p class="field-hint">Think: substitutions they didn't have to make, extra check-ins, bringing stuff unprompted.</p>
+        <div class="btn-group" id="aboveAndBeyond">
+          <button class="opt-btn" data-value="yes">✨ Yes, absolutely</button>
+          <button class="opt-btn" data-value="no">Standard service</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Were they a vibe?</label>
+        <div class="btn-group" id="vibe">
+          <button class="opt-btn" data-value="yes">💫 Total vibe</button>
+          <button class="opt-btn" data-value="no">Not really</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Was it a busy night and they were visibly slammed?</label>
+        <div class="btn-group" id="overwhelmed">
+          <button class="opt-btn" data-value="yes">Yes, they were hustling</button>
+          <button class="opt-btn" data-value="no">Nope, pretty chill</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALCULATE BUTTON -->
+    <div class="calculate-wrap animate-up">
+      <button class="calculate-btn" id="calculateBtn">Calculate My Tip</button>
+    </div>
+
+    <!-- RESULT -->
+    <section class="result-card animate-up" id="resultCard" style="display:none;">
+      <div class="flame-icon">🕯️</div>
+      <p class="result-label">Recommended Tip</p>
+      <div class="result-pct" id="resultPct">0%</div>
+      <div class="result-amounts">
+        <div class="result-amount-block">
+          <span class="result-amount-label">Tip Amount</span>
+          <span class="result-amount-value" id="resultTipAmt">$0.00</span>
+        </div>
+        <div class="result-divider"></div>
+        <div class="result-amount-block">
+          <span class="result-amount-label">Total to Pay</span>
+          <span class="result-amount-value" id="resultTotal">$0.00</span>
+        </div>
+      </div>
+      <button class="round-up-btn" id="roundUpBtn">Round Up the Tip</button>
+      <p class="result-verdict" id="resultVerdict"></p>
+      <button class="reset-btn" id="resetBtn">Start Over</button>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Made with 🕯️ for servers everywhere.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
